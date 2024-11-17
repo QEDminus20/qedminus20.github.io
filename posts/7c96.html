@@ -28,7 +28,7 @@
 <meta property="og:description" content="两种方式思考全错位排列问题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-10-31T06:34:53.000Z">
-<meta property="article:modified_time" content="2024-10-31T07:04:19.870Z">
+<meta property="article:modified_time" content="2024-11-11T12:20:17.255Z">
 <meta property="article:author" content="花生了什么树">
 <meta name="twitter:card" content="summary">
 
@@ -239,7 +239,7 @@
 <p>这里给出两种计算方式，求解排列种数的通项。</p>
 <h2 id="容斥原理"><a href="#容斥原理" class="headerlink" title="容斥原理"></a>容斥原理</h2><p>记 $A_i$ 表示第 $i$ 项选到了正确位置的数的集合。</p>
 <p>则我们待求的全错位排列的种数 $D_n &#x3D; n!-|A_1\cup A_2\cup\cdots\cup A_n|$</p>
-<p>利用容斥原理，有<br>$$<br>|A_1\cup A_2\cup\cdots\cup A_n|&#x3D;\sum_{i&#x3D;1}^n|A_i|-\sum_{1\leq i &lt; j\leq n}|A_i\cap A_j| + \dots+(-1)^n|A_1\cap A_2\cap\cdots\cap A_n|<br>$$<br>同时不难发现<br>$$<br>|A_i| &#x3D; (n-1)!\ \ \ \ |A_i\cap A_j|&#x3D;(n-2)!\ \ \ \cdots\ \ \ |A_1\cap A_2\cap\cdots\cap A_n| &#x3D; 0!<br>$$<br>于是<br>$$<br>|A_1\cup A_2\cup\cdots\cup A_n|&#x3D;C_n^1(n - 1)!-C_n^2(n-2)!+\cdots+(-1)^{n-1}C_n^n0!<br>$$<br>即<br>$$<br>|A_1\cup A_2\cup\cdots\cup A_n|&#x3D;n!-\frac{n!}{2!}+\cdots+(-1)^{n-1}\frac{n!}{n!}<br>$$<br>这样就求得了 $D_n$：<br>$$<br>D_n &#x3D; n!(\frac{1}{2!}-\frac{1}{3!}+\cdots+(-1)^n\frac{1}{n!})<br>$$</p>
+<p>利用容斥原理，有<br>$$<br>|A_1\cup A_2\cup\cdots\cup A_n|&#x3D;\sum_{i&#x3D;1}^n|A_i|-\sum_{1\leq i &lt; j\leq n}|A_i\cap A_j| + \dots+(-1)^{n-1}|A_1\cap A_2\cap\cdots\cap A_n|<br>$$<br>同时不难发现<br>$$<br>|A_i| &#x3D; (n-1)!\ \ \ \ |A_i\cap A_j|&#x3D;(n-2)!\ \ \ \cdots\ \ \ |A_1\cap A_2\cap\cdots\cap A_n| &#x3D; 0!<br>$$<br>于是<br>$$<br>|A_1\cup A_2\cup\cdots\cup A_n|&#x3D;C_n^1(n - 1)!-C_n^2(n-2)!+\cdots+(-1)^{n-1}C_n^n0!<br>$$<br>即<br>$$<br>|A_1\cup A_2\cup\cdots\cup A_n|&#x3D;n!-\frac{n!}{2!}+\cdots+(-1)^{n-1}\frac{n!}{n!}<br>$$<br>这样就求得了 $D_n$：<br>$$<br>D_n &#x3D; n!(\frac{1}{2!}-\frac{1}{3!}+\cdots+(-1)^n\frac{1}{n!})<br>$$</p>
 <h2 id="构造递推式"><a href="#构造递推式" class="headerlink" title="构造递推式"></a>构造递推式</h2><p>显然 $D_0&#x3D;0,\ D_1&#x3D;1$</p>
 <p>当 $n\geq3$ 时，不妨假设 $n$ 排在了第 $k(1\leq k &lt; n)$ 位，考虑第 $n$ 位的情况：</p>
 <ol>

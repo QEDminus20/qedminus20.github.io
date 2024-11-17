@@ -38,8 +38,23 @@
 <meta property="og:image" content="http://qedminus20.github.io/posts/5c33/9.png">
 <meta property="og:image" content="http://qedminus20.github.io/posts/5c33/10.png">
 <meta property="og:image" content="http://qedminus20.github.io/posts/5c33/11.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/12.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/13.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/14.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/15.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/16.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/17.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/18.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/19.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/20.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/21.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/22.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/23.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/24.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/25.png">
+<meta property="og:image" content="http://qedminus20.github.io/posts/5c33/26.png">
 <meta property="article:published_time" content="2024-11-02T10:41:16.000Z">
-<meta property="article:modified_time" content="2024-11-02T10:56:37.715Z">
+<meta property="article:modified_time" content="2024-11-17T03:48:00.055Z">
 <meta property="article:author" content="花生了什么树">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://qedminus20.github.io/posts/5c33/1.png">
@@ -247,31 +262,26 @@
 <li>Step3.4 配置 VLAN 与网关，使两个子网的各 PC 机之间可自由通信。</li>
 <li>Step5 通过配置静态路由解决 Kali 机与其他 PC 机的通信问题。</li>
 </ul>
-<p><strong>Step1：作出网络拓扑图（标注ip地址、接口等信息）</strong></p>
-<img src="/posts/5c33/1.png" class="">
+<h3 id="Step1：作出网络拓扑图（标注ip地址、接口等信息）"><a href="#Step1：作出网络拓扑图（标注ip地址、接口等信息）" class="headerlink" title="Step1：作出网络拓扑图（标注ip地址、接口等信息）"></a>Step1：作出网络拓扑图（标注ip地址、接口等信息）</h3><img src="/posts/5c33/1.png" class="">
 
-<p><strong>Step2：为 PC 机配置 IP 地址（Network – IP Address）</strong></p>
-<p>（注意：在后续操作中，需要将Gateway更改为对应网关）</p>
+<h3 id="Step2：为-PC-机配置-IP-地址（Network-–-IP-Address）"><a href="#Step2：为-PC-机配置-IP-地址（Network-–-IP-Address）" class="headerlink" title="Step2：为 PC 机配置 IP 地址（Network – IP Address）"></a>Step2：为 PC 机配置 IP 地址（Network – IP Address）</h3><p>（注意：在后续操作中，需要将Gateway更改为对应网关）</p>
 <img src="/posts/5c33/2.png" class="">
 
 <p>测试 PC1 和 PC2、PC3、PC4 之间的连通性：</p>
 <img src="/posts/5c33/3.png" class="">
 
 <p>可见 PC1 只与 PC3 连通，与 PC2，PC4 不连通。</p>
-<p><strong>Step3：进入交换机配置 VLAN</strong></p>
-<img src="/posts/5c33/4.png" class="">
+<h3 id="Step3：进入交换机配置-VLAN"><a href="#Step3：进入交换机配置-VLAN" class="headerlink" title="Step3：进入交换机配置 VLAN"></a>Step3：进入交换机配置 VLAN</h3><img src="/posts/5c33/4.png" class="">
 
 <img src="/posts/5c33/5.png" class="">
 
-<p><strong>Step4：进入路由器配置网关</strong></p>
-<img src="/posts/5c33/6.png" class="">
+<h3 id="Step4：进入路由器配置网关"><a href="#Step4：进入路由器配置网关" class="headerlink" title="Step4：进入路由器配置网关"></a>Step4：进入路由器配置网关</h3><img src="/posts/5c33/6.png" class="">
 
 <p>测试 PC4 和 PC1、PC2、PC3 之间的连通性：</p>
 <img src="/posts/5c33/7.png" class="">
 
 <p>可见 PC4 可与 PC1，PC2，PC3 自由连通。</p>
-<p><strong>Step5：配置静态路由，连接 Kali 客户端与其他客户端</strong></p>
-<p>为 Kali 客户端配置 IP 与网关</p>
+<h3 id="Step5：配置静态路由，连接-Kali-客户端与其他客户端"><a href="#Step5：配置静态路由，连接-Kali-客户端与其他客户端" class="headerlink" title="Step5：配置静态路由，连接 Kali 客户端与其他客户端"></a>Step5：配置静态路由，连接 Kali 客户端与其他客户端</h3><p>为 Kali 客户端配置 IP 与网关</p>
 <img src="/posts/5c33/8.png" class=""> 
 
 <p>测试 Kali 客户端与其他 PC 机通信，连接失败</p>
@@ -282,6 +292,105 @@
 
 <p>再次测试 Kali 客户端与其他 PC 机通信， ping 通</p>
 <img src="/posts/5c33/11.png" class="">
+
+<h2 id="基础组网实验-1"><a href="#基础组网实验-1" class="headerlink" title="基础组网实验"></a>基础组网实验</h2><h3 id="基础任务"><a href="#基础任务" class="headerlink" title="基础任务"></a>基础任务</h3><p>首先对每个 VLAN 的 IP 范围，子网掩码，网关进行分配。</p>
+<table>
+<thead>
+<tr>
+<th>VLAN  ID</th>
+<th>IP 范围</th>
+<th>掩码</th>
+<th>网关</th>
+<th>主机可用 IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>192.168.1.0 - 192.168.1.127</td>
+<td>255.255.255.128</td>
+<td>192.168.1.1</td>
+<td>192.168.1.2 - 192.168.1.126</td>
+</tr>
+<tr>
+<td>3</td>
+<td>192.168.1.128 - 192.168.1.255</td>
+<td>255.255.255.128</td>
+<td>192.168.1.129</td>
+<td>192.168.1.130 - 192.168.1.254</td>
+</tr>
+<tr>
+<td>4</td>
+<td>192.168.2.0 - 192.168.2.255</td>
+<td>255.255.255.0</td>
+<td>192.168.2.1</td>
+<td>192.168.2.2 - 192.168.2.254</td>
+</tr>
+<tr>
+<td>5</td>
+<td>192.168.3.0 - 192.168.3.255</td>
+<td>255.255.255.0</td>
+<td>192.168.3.1</td>
+<td>192.168.3.2 - 192.168.3.254</td>
+</tr>
+</tbody></table>
+<h4 id="Step1：作出网络拓扑图（标注ip地址、接口等信息）-1"><a href="#Step1：作出网络拓扑图（标注ip地址、接口等信息）-1" class="headerlink" title="Step1：作出网络拓扑图（标注ip地址、接口等信息）"></a>Step1：作出网络拓扑图（标注ip地址、接口等信息）</h4><img src="/posts/5c33/12.png" class="">
+
+<h4 id="Step2：交换机配置"><a href="#Step2：交换机配置" class="headerlink" title="Step2：交换机配置"></a>Step2：交换机配置</h4><p>SubCompany1 交换机配置如图所示。其他交换机按图中 vlan 类似配置即可。</p>
+<img src="/posts/5c33/13.png" class="">
+
+<h4 id="Step3：路由器配置"><a href="#Step3：路由器配置" class="headerlink" title="Step3：路由器配置"></a>Step3：路由器配置</h4><img src="/posts/5c33/14.png" class="">
+
+<h4 id="Step4：主机-IP，网关，掩码-配置"><a href="#Step4：主机-IP，网关，掩码-配置" class="headerlink" title="Step4：主机 IP，网关，掩码 配置"></a>Step4：主机 IP，网关，掩码 配置</h4><p>（放在最后一步做是因为主机的配置不会被保存，每次打开需要重新配置）</p>
+<p>PC-1 配置如下，其他类似配置即可。（参照上面给出的地址分配表）</p>
+<img src="/posts/5c33/15.png" class="">
+
+<p>到这里基本操作除服务器外的基本操作就完成了，主机间相互pingping测试一下。（这里用PC-1 PC-3 ping PC-2 ，均连通）</p>
+<img src="/posts/5c33/16.png" class="">
+
+<h4 id="Step5：服务器配置"><a href="#Step5：服务器配置" class="headerlink" title="Step5：服务器配置"></a>Step5：服务器配置</h4><p>以FTP为例，右键 - Configure - Edit - 修改信息(类似下图，修改ip，掩码，网关信息) - Sava - Apply - OK<br>记得 uncomment 你修改的几行信息。</p>
+<img src="/posts/5c33/17.png" class="">
+
+<p>服务器配置完成后用PC端测试，全部 ping 通。</p>
+<img src="/posts/5c33/18.png" class="">
+
+<p>综合组网实验的基本任务到这里就结束了。</p>
+<h3 id="进阶任务"><a href="#进阶任务" class="headerlink" title="进阶任务"></a>进阶任务</h3><p>下面要用到拓展 ACL，数字范围选择时应注意范围。</p>
+<blockquote>
+<p>扩展 ACL 可以基于源 IP 地址、目的 IP 地址、协议类型（如 TCP、UDP、ICMP）以及其他高级条件（如端口号）来控制流量。使用数字范围 <code>100-199</code> 来标识扩展 ACL。</p>
+</blockquote>
+<h4 id="Task1"><a href="#Task1" class="headerlink" title="Task1"></a>Task1</h4><p><strong>财务部门只能访问服务器，不能访问其他网段。</strong></p>
+<p>即：允许 <code>192.168.2.x</code> 与 <code>192.168.3.x</code> 网段的通信，阻止 <code>192.168.2.x</code> 访问除 <code>192.168.3.x</code> 外的任何目的地。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">access-list 101 permit ip 192.168.2.0 0.0.0.255 192.168.3.0 0.0.0.255</span><br><span class="line">access-list 101 deny ip 192.168.2.0 0.0.0.255 any</span><br><span class="line">int G0/0.4</span><br><span class="line">ip access-group 101 in</span><br></pre></td></tr></table></figure>
+
+<h4 id="Task2"><a href="#Task2" class="headerlink" title="Task2"></a>Task2</h4><p><strong>两个分公司不能访问财务部门，其余都可以访问。</strong></p>
+<p>即：拒绝 <code>192.168.1.x</code> 网段与 <code>192.168.2.x</code> 网段之间的通信，允许其他所有流量通过。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">access-list 102 deny ip 192.168.1.0 0.0.0.255 192.168.2.0 0.0.0.255</span><br><span class="line">access-list 102 permit ip any any</span><br><span class="line">int G0/0.2</span><br><span class="line">ip access-group 102 in</span><br><span class="line">int G0/0.3</span><br><span class="line">ip access-group 102 in</span><br></pre></td></tr></table></figure>
+
+<p>前两个任务完成了，测试一下。</p>
+<p>财务部门 PC 访问分公司 PC，不连通，访问服务器，连通。</p>
+<img src="/posts/5c33/19.png" class="">
+
+<p>分公司 PC 访问财务部门 PC，不连通，访问服务器，连通。</p>
+<h4 id="Task3"><a href="#Task3" class="headerlink" title="Task3"></a>Task3</h4><p><strong>在 分公司1 和 分公司2 的客户端上分别配置 FTP 客户端（使用Kali 系统终端）和 HTTP 客户端，并对 FTP 服务器、HTTP 服务器和 DNS 服务器进行相关配置。FTP 客户端能访问 FTP 服务器，能够实现上传、下载文件功能。HTTP 客户端能通过域名访问 HTTP 服务器，并能正常访问网页。</strong></p>
+<p>修改网络拓扑图，增加两个 Kali 机，相应配置交换机 SubCompany1 与 SubCompany2。</p>
+<img src="/posts/5c33/20.png" class="">
+
+<h5 id="FTP-上传下载"><a href="#FTP-上传下载" class="headerlink" title="FTP 上传下载"></a>FTP 上传下载</h5><p>在 FTP 服务器上创建文件 <code>file.txt</code> 写入内容，在 Kali 主机上用 <code>ftp 192.168.3.2</code> 连接 FTP 服务器。<code>get file.txt</code>  下载文件，在文件中找到了<code>file.txt</code> 表明下载成功；<code>put file.txt uplode.txt</code> 上传文件，在 FTP 服务器中找到了该 <code>uplode.txt</code> 文件，表明上传成功。</p>
+<img src="/posts/5c33/21.png" class="">
+
+<img src="/posts/5c33/22.png" class="">
+
+<h5 id="HTTP-域名访问"><a href="#HTTP-域名访问" class="headerlink" title="HTTP 域名访问"></a>HTTP 域名访问</h5><p>打开HTTP服务器观察文件目录，发现用的是 Nginx 服务器（不是 Apache 服务器），进入 <code>/etc/nginx/nginx.conf</code> 进行配置（使用不了 vim 命令，用nano进行配置）。加入如下 server 代码段。</p>
+<img src="/posts/5c33/23.png" class="">
+
+<p>DNS 服务器的配置参照给出的 <code>Usage</code> 完成即可。</p>
+<img src="/posts/5c33/24.png" class="">
+
+<p>使用域名访问成功。<br>(Kali 客户端在配置时填入 DNS，Firefox 客户端在配置时 NameServers 一栏填入 DNS 的 ip)</p>
+<img src="/posts/5c33/25.png" class="">
+
+<img src="/posts/5c33/26.png" class="">
+
 
     </div>
 
@@ -362,7 +471,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%BB%84%E7%BD%91%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.</span> <span class="nav-text">基础组网实验</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%BB%84%E7%BD%91%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.</span> <span class="nav-text">基础组网实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1%EF%BC%9A%E4%BD%9C%E5%87%BA%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E5%9B%BE%EF%BC%88%E6%A0%87%E6%B3%A8ip%E5%9C%B0%E5%9D%80%E3%80%81%E6%8E%A5%E5%8F%A3%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">Step1：作出网络拓扑图（标注ip地址、接口等信息）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2%EF%BC%9A%E4%B8%BA-PC-%E6%9C%BA%E9%85%8D%E7%BD%AE-IP-%E5%9C%B0%E5%9D%80%EF%BC%88Network-%E2%80%93-IP-Address%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">Step2：为 PC 机配置 IP 地址（Network – IP Address）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3%EF%BC%9A%E8%BF%9B%E5%85%A5%E4%BA%A4%E6%8D%A2%E6%9C%BA%E9%85%8D%E7%BD%AE-VLAN"><span class="nav-number">2.3.</span> <span class="nav-text">Step3：进入交换机配置 VLAN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step4%EF%BC%9A%E8%BF%9B%E5%85%A5%E8%B7%AF%E7%94%B1%E5%99%A8%E9%85%8D%E7%BD%AE%E7%BD%91%E5%85%B3"><span class="nav-number">2.4.</span> <span class="nav-text">Step4：进入路由器配置网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step5%EF%BC%9A%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%EF%BC%8C%E8%BF%9E%E6%8E%A5-Kali-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E5%85%B6%E4%BB%96%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">2.5.</span> <span class="nav-text">Step5：配置静态路由，连接 Kali 客户端与其他客户端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%BB%84%E7%BD%91%E5%AE%9E%E9%AA%8C-1"><span class="nav-number">3.</span> <span class="nav-text">基础组网实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.1.</span> <span class="nav-text">基础任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Step1%EF%BC%9A%E4%BD%9C%E5%87%BA%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E5%9B%BE%EF%BC%88%E6%A0%87%E6%B3%A8ip%E5%9C%B0%E5%9D%80%E3%80%81%E6%8E%A5%E5%8F%A3%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%89-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">Step1：作出网络拓扑图（标注ip地址、接口等信息）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step2%EF%BC%9A%E4%BA%A4%E6%8D%A2%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.2.</span> <span class="nav-text">Step2：交换机配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step3%EF%BC%9A%E8%B7%AF%E7%94%B1%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.3.</span> <span class="nav-text">Step3：路由器配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step4%EF%BC%9A%E4%B8%BB%E6%9C%BA-IP%EF%BC%8C%E7%BD%91%E5%85%B3%EF%BC%8C%E6%8E%A9%E7%A0%81-%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.4.</span> <span class="nav-text">Step4：主机 IP，网关，掩码 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step5%EF%BC%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.5.</span> <span class="nav-text">Step5：服务器配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.2.</span> <span class="nav-text">进阶任务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Task1"><span class="nav-number">3.2.1.</span> <span class="nav-text">Task1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Task2"><span class="nav-number">3.2.2.</span> <span class="nav-text">Task2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Task3"><span class="nav-number">3.2.3.</span> <span class="nav-text">Task3</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#FTP-%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">FTP 上传下载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP-%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AE"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">HTTP 域名访问</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
