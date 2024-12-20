@@ -28,7 +28,7 @@
 <meta property="og:description" content="汇编语言 8086指令系统整理。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-11-29T06:02:33.000Z">
-<meta property="article:modified_time" content="2024-12-02T03:02:15.657Z">
+<meta property="article:modified_time" content="2024-12-19T11:22:47.594Z">
 <meta property="article:author" content="花生了什么树">
 <meta name="twitter:card" content="summary">
 
@@ -305,7 +305,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mul r8/m8                ; 无符号字节乘:  ax &lt;- al·r8/m8</span><br><span class="line">mul r16/m16                ; 无符号字乘:   dx.ax &lt;- ax·r16/m16</span><br><span class="line">imul r8/m8                ; 有符号字节乘:  ax &lt;- al·r8/m8</span><br><span class="line">imul r16/m16            ; 有符号字乘:   dx.ax &lt;- ax·r16/m16</span><br><span class="line">; OF和CF的结果展示相乘结果高一半是否有有效数值</span><br><span class="line">; 对 mul，高一半为 0 时，OF = CF = 0，否则 OF = CF = 1</span><br><span class="line">; 对 imul，高一半是低一半的符号拓展时，OF = CF = 0，否则 OF = CF = 1</span><br><span class="line">; 乘法指令对其他状态标志未定义，不可预测。</span><br></pre></td></tr></table></figure>
 
 <p>无符号二进制数除法指令 <code>div</code>，有符号二进制数除法指令 <code>idiv</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">div r8/m8                ; 无符号数字节除: al &lt;- ax除以r8/m8的商</span><br><span class="line">                                    ; ah &lt;- ax除以r8/m8的余数</span><br><span class="line">div r16/m16                ; 无符号数字节除: ax &lt;- dx.ax除以r16/m16的商</span><br><span class="line">                                    ; ax &lt;- dx.ax除以r16/m16的余数</span><br><span class="line">idiv r8/m8                ; 有符号数字节除: al &lt;- ax除以r8/m8的商</span><br><span class="line">                                    ; ah &lt;- ax除以r8/m8的余数</span><br><span class="line">idiv r16/m16            ; 有符号数字节除: ax &lt;- dx.ax除以r16/m16的商</span><br><span class="line">                                    ; ax &lt;- dx.ax除以r16/m16的余数</span><br><span class="line">; 除法指令对标志的影响没有定义, 发生除法溢出时，8086 CPU 产生编号为 0 的内部中断</span><br><span class="line">; 对 div，除数为0，或结果溢出，发生除法溢出</span><br><span class="line">; 对 idiv，除数为0，或字节除时商不在-128~127，或字除时商不在-32768~32767，发生除法溢出</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">div r8/m8                ; 无符号数字节除: al &lt;- ax除以r8/m8的商</span><br><span class="line">                                    ; ah &lt;- ax除以r8/m8的余数</span><br><span class="line">div r16/m16                ; 无符号数字节除: ax &lt;- dx.ax除以r16/m16的商</span><br><span class="line">                                    ; dx &lt;- dx.ax除以r16/m16的余数</span><br><span class="line">idiv r8/m8                ; 有符号数字节除: al &lt;- ax除以r8/m8的商</span><br><span class="line">                                    ; ah &lt;- ax除以r8/m8的余数</span><br><span class="line">idiv r16/m16            ; 有符号数字节除: ax &lt;- dx.ax除以r16/m16的商</span><br><span class="line">                                    ; dx &lt;- dx.ax除以r16/m16的余数</span><br><span class="line">; 除法指令对标志的影响没有定义, 发生除法溢出时，8086 CPU 产生编号为 0 的内部中断</span><br><span class="line">; 对 div，除数为0，或结果溢出，发生除法溢出</span><br><span class="line">; 对 idiv，除数为0，或字节除时商不在-128~127，或字除时商不在-32768~32767，发生除法溢出</span><br></pre></td></tr></table></figure>
 
 <p>符号扩展指令 <code>cbw</code> <code>cwd</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cbw                        ; al符号扩展到ax</span><br><span class="line">cwd                        ; ax符号扩展到dx.ax</span><br></pre></td></tr></table></figure>
@@ -647,14 +647,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-count">76</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
