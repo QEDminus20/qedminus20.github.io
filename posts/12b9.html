@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qedminus20.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":false,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="重温一遍 with 更详尽的指引。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Conda &amp; Spyder 的环境管理">
+<meta property="og:url" content="http://qedminus20.github.io/posts/12b9.html">
+<meta property="og:site_name" content="小花生">
+<meta property="og:description" content="重温一遍 with 更详尽的指引。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-28T18:45:39.000Z">
+<meta property="article:modified_time" content="2024-12-28T18:50:41.753Z">
+<meta property="article:author" content="花生了什么树">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://qedminus20.github.io/posts/12b9.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Conda & Spyder 的环境管理 | 小花生</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小花生</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">study & life record.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://qedminus20.github.io/posts/12b9.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content="星海横流，岁月成碑。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小花生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Conda & Spyder 的环境管理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-29 02:45:39" itemprop="dateCreated datePublished" datetime="2024-12-29T02:45:39+08:00">2024-12-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>重温一遍 with 更详尽的指引。</p>
+</blockquote>
+<span id="more"></span>
+
+<h3 id="Conda-使用指南"><a href="#Conda-使用指南" class="headerlink" title="Conda 使用指南"></a>Conda 使用指南</h3><h4 id="一、环境管理"><a href="#一、环境管理" class="headerlink" title="一、环境管理"></a>一、环境管理</h4><ol>
+<li><p><strong>查看现有环境</strong></p>
+<ul>
+<li><p>查看当前所有 Conda 环境：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda env list</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>创建新环境</strong></p>
+<ul>
+<li><p>创建一个新的环境，并指定 Python 版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n myenv python=3.9</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建环境并安装多个包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n myenv python=3.9 numpy pandas</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建环境时指定使用特定的包源（如 <code>conda-forge</code>）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n myenv python=3.9 numpy -c conda-forge</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>激活&#x2F;切换环境</strong></p>
+<ul>
+<li><p>激活一个环境：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate myenv</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果你在 <code>base</code> 环境中工作，切换到其他环境时会看到环境名称前缀变化，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(myenv) user@machine:~$</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>退出当前环境</strong></p>
+<ul>
+<li><p>退出当前激活的环境，返回 <code>base</code> 环境：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda deactivate</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>删除环境</strong></p>
+<ul>
+<li><p>删除一个环境及其所有内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda remove --name myenv --all</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>共享环境配置</strong></p>
+<ul>
+<li><p>导出当前环境的配置（包括所有包及版本）到 <code>YAML</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>YAML</code> 文件在其他机器上创建相同的环境：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h4 id="二、包管理"><a href="#二、包管理" class="headerlink" title="二、包管理"></a>二、包管理</h4><ol>
+<li><p><strong>查看已安装的包</strong></p>
+<ul>
+<li><p>查看当前环境中安装的所有包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda list</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看指定环境中的包（不需要激活该环境）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda list -n myenv</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>安装包</strong></p>
+<ul>
+<li><p>在当前环境中安装包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install package_name</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装特定版本的包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install package_name=1.2.3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>pip</code> 安装包（适用于 Conda 环境中没有的包）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install package_name</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>更新包</strong></p>
+<ul>
+<li><p>更新某个包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda update package_name</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新所有包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda update --all</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>卸载包</strong></p>
+<ul>
+<li><p>卸载某个包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda remove package_name</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载并清理不再需要的包：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda remove package_name --all</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>查看包的依赖</strong></p>
+<ul>
+<li><p>查看某个包的依赖项：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda info package_name</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>清理 Conda 缓存</strong></p>
+<ul>
+<li><p>清理不再使用的包缓存，释放磁盘空间：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda clean --all</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h4 id="三、环境和包管理的最佳实践"><a href="#三、环境和包管理的最佳实践" class="headerlink" title="三、环境和包管理的最佳实践"></a>三、环境和包管理的最佳实践</h4><ol>
+<li><p><strong>为每个项目创建独立的环境</strong>：</p>
+<ul>
+<li>尽量避免在 <code>base</code> 环境中安装项目依赖。为每个项目创建独立的 Conda 环境，这样可以避免版本冲突并确保项目的可重现性。</li>
+</ul>
+</li>
+<li><p><strong>使用 <code>environment.yml</code> 文件管理环境</strong>：</p>
+<ul>
+<li><p>通过 <code>environment.yml</code> 文件可以方便地分享环境配置，使得其他人可以轻松创建相同的环境。</p>
+<p><code>environment.yml</code> 文件例子：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">myenv</span></span><br><span class="line"><span class="attr">channels:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">conda-forge</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">defaults</span></span><br><span class="line"><span class="attr">dependencies:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">python=3.9</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">numpy</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">pandas</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>定期清理环境</strong>：</p>
+<ul>
+<li>删除不再使用的环境，以释放磁盘空间。</li>
+<li>使用 <code>conda clean --all</code> 清理缓存和不再使用的包。</li>
+</ul>
+</li>
+<li><p><strong>尽量通过 Conda 安装包</strong>：</p>
+<ul>
+<li>Conda 优化了包的依赖关系和兼容性，因此尽量通过 Conda 安装库。只有在 Conda 中找不到包时，才使用 <code>pip</code> 安装。</li>
+</ul>
+</li>
+<li><p><strong>避免过多依赖全局环境（<code>base</code> 环境）</strong>：</p>
+<ul>
+<li>虽然 <code>base</code> 环境包含了 Conda 管理工具和一些常用包，但最好避免在 <code>base</code> 环境中直接进行项目开发。建议每个项目都使用独立的环境。</li>
+</ul>
+</li>
+</ol>
+<h3 id="Spyder-使用指南"><a href="#Spyder-使用指南" class="headerlink" title="Spyder 使用指南"></a>Spyder 使用指南</h3><h4 id="一、在-Conda-环境中安装-Spyder"><a href="#一、在-Conda-环境中安装-Spyder" class="headerlink" title="一、在 Conda 环境中安装 Spyder"></a>一、在 Conda 环境中安装 Spyder</h4><ol>
+<li><p><strong>创建新的 Conda 环境</strong><br>首先，为项目创建一个新的 Conda 环境，并指定 Python 版本及其它所需的库。例如，创建一个名为 <code>myenv</code> 的环境，并安装 Python 和 SciPy 库（可以包括 Spyder）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n myenv python=3.9 scipy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>激活环境</strong><br>激活该环境：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate myenv</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装 Spyder</strong><br>你可以通过 Conda 安装 Spyder，也可以选择通过 <code>conda-forge</code> 频道进行安装。推荐使用 <code>conda-forge</code>，因为它通常更新较快：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install spyder -c conda-forge</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，Spyder 就会安装在当前 Conda 环境中。</p>
+</li>
+</ol>
+<h4 id="二、启动-Spyder"><a href="#二、启动-Spyder" class="headerlink" title="二、启动 Spyder"></a>二、启动 Spyder</h4><ol>
+<li><p><strong>启动 Spyder</strong><br>在 Conda 环境中安装好 Spyder 后，仍然需要在该环境中启动 Spyder。确保你在所需的 Conda 环境下激活，然后运行 Spyder：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spyder</span><br></pre></td></tr></table></figure>
+
+<p>这会启动与当前环境绑定的 Spyder。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/caf9.html" rel="prev" title="汇编语言-考点篇">
+      <i class="fa fa-chevron-left"></i> 汇编语言-考点篇
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/4fed.html" rel="next" title="Hello 2025">
+      Hello 2025 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Conda-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">Conda 使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">一、环境管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%8C%85%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">二、包管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%8E%AF%E5%A2%83%E5%92%8C%E5%8C%85%E7%AE%A1%E7%90%86%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.3.</span> <span class="nav-text">三、环境和包管理的最佳实践</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spyder-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">2.</span> <span class="nav-text">Spyder 使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9C%A8-Conda-%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%AE%89%E8%A3%85-Spyder"><span class="nav-number">2.1.</span> <span class="nav-text">一、在 Conda 环境中安装 Spyder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%90%AF%E5%8A%A8-Spyder"><span class="nav-number">2.2.</span> <span class="nav-text">二、启动 Spyder</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">星海横流，岁月成碑。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+--!>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("04/16/2024 20:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+</script>
+
+<!-- 访客量的设置 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span><br></span> 
+
+<span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+</span>
+<span>总访客&nbsp<span id="busuanzi_value_site_uv"></span>&nbsp人</span>
+    <span class="post-meta-divider">|</span>
+<span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+</span>
+    <span>总访问量&nbsp<span id="busuanzi_value_site_pv"></span>&nbsp次</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

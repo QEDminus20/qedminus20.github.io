@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qedminus20.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":false,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="汇编语言 8086指令系统整理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="8086指令系统">
+<meta property="og:url" content="http://qedminus20.github.io/posts/1118.html">
+<meta property="og:site_name" content="小花生">
+<meta property="og:description" content="汇编语言 8086指令系统整理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-29T06:02:33.000Z">
+<meta property="article:modified_time" content="2024-12-19T11:22:47.594Z">
+<meta property="article:author" content="花生了什么树">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://qedminus20.github.io/posts/1118.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>8086指令系统 | 小花生</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小花生</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">study & life record.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://qedminus20.github.io/posts/1118.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content="星海横流，岁月成碑。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小花生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          8086指令系统
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-11-29 14:02:33" itemprop="dateCreated datePublished" datetime="2024-11-29T14:02:33+08:00">2024-11-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index"><span itemprop="name">汇编语言</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>汇编语言 8086指令系统整理。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="数据传送类指令"><a href="#数据传送类指令" class="headerlink" title="数据传送类指令"></a>数据传送类指令</h2><h3 id="通用数据传送指令"><a href="#通用数据传送指令" class="headerlink" title="通用数据传送指令"></a>通用数据传送指令</h3><p>传送指令 <code>mov</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov reg/mem, imm        ; 立即数送寄存器或主存</span><br><span class="line">mov reg/mem/seg, reg    ; 寄存器送寄存器（包括段寄存器）或主存</span><br><span class="line">mov reg/seg, mem        ; 主存送寄存器（包括段寄存器）</span><br><span class="line">mov reg/mem, seg        ; 段寄存器送主存或寄存器</span><br></pre></td></tr></table></figure>
+
+<p>交换指令 <code>xchg</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xchg reg, reg/mem        ; 将寄存器与寄存器或主存的内容交换</span><br></pre></td></tr></table></figure>
+
+<p>换码指令 <code>xlat</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">xlat                    ; al &lt;- ds:[bx+al]</span><br><span class="line">; 使用前，将表格的首地址存在BX寄存器中</span><br><span class="line">; 将需要转换的代码（偏移量）存在AL寄存器中</span><br><span class="line">; 执行换码指令后，将AL寄存器中的内容转换为目标代码</span><br></pre></td></tr></table></figure>
+
+<h3 id="堆栈操作指令"><a href="#堆栈操作指令" class="headerlink" title="堆栈操作指令"></a>堆栈操作指令</h3><blockquote>
+<p>堆栈是一个”先进后出”的主存区域，位于堆栈段中。</p>
+<p>存储方式是：高位栈底，低位栈顶。</p>
+</blockquote>
+<p>进栈指令 <code>push</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">push r16/m16/seg        ; sp &lt;- sp-2, ss:[sp] &lt;- r16/m16/seg</span><br></pre></td></tr></table></figure>
+
+<p>出栈指令 <code>pop</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pop r16/m16/seg            ; r16/m16/reg, sp &lt;- sp + 2</span><br></pre></td></tr></table></figure>
+
+<h3 id="标志传送指令"><a href="#标志传送指令" class="headerlink" title="标志传送指令"></a>标志传送指令</h3><p>标志送AH指令 <code>lahf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lahf                    ; ah &lt;- flags的低字节</span><br></pre></td></tr></table></figure>
+
+<p>AH送标志指令 <code>sahf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sahf                    ; flags的低字节 &lt;- ah</span><br></pre></td></tr></table></figure>
+
+<p>标志进栈指令 <code>pushf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pushf                    ; sp &lt;- sp-2, ss:[sp] &lt;- flags</span><br></pre></td></tr></table></figure>
+
+<p>标志出栈指令 <code>popf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">popf                    ; flags &lt;- ss:[sp], sp &lt;- sp+2</span><br></pre></td></tr></table></figure>
+
+<p>标志位操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">clc                        ; CF &lt;- 0</span><br><span class="line">stc                        ; CF &lt;- 1</span><br><span class="line">cmc                        ; CF &lt;- ~CF</span><br><span class="line">cld                        ; DF &lt;- 0</span><br><span class="line">std                        ; DF &lt;- 1</span><br><span class="line">cli                        ; IF &lt;- 0</span><br><span class="line">sti                        ; IF &lt;- 1</span><br><span class="line">; 记忆：cl -&gt; clear, st-&gt;set</span><br></pre></td></tr></table></figure>
+
+<h3 id="地址传送指令"><a href="#地址传送指令" class="headerlink" title="地址传送指令"></a>地址传送指令</h3><p>有效地址传送指令 <code>lea</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lea r16, mem            ; r16 &lt;- mem的有效地址EA</span><br></pre></td></tr></table></figure>
+
+<p>指针传送指令 <code>lds</code> <code>les</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lds r16, mem            ; r16 &lt;- mem, ds &lt;- mem+2</span><br><span class="line">les r16, mem            ; r16 &lt;- mem, es &lt;- mem+2</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="算术运算类指令"><a href="#算术运算类指令" class="headerlink" title="算术运算类指令"></a>算术运算类指令</h2><blockquote>
+<p>首先了解几个状态标志，它们在算术运算中起着重要作用。</p>
+<p>进位标志 CF（Carry Flag）：<br>针对无符号整数运算设计。<br>当加减运算的结果的最高有效位有进位或借位时，设置CF &#x3D; 1</p>
+<p>溢出标志 OF（Overflow Flag）：<br>针对有符号整数运算设计。<br>当有符号数进行加减运算的结果超出范围时，设置OF &#x3D; 1</p>
+<p>零标志 ZF（Zero Flag）：<br>反映运算结果是否为 0，当运算结果为 0 时，设置ZF &#x3D; 1</p>
+<p>符号指令 SF（Sign Flag）：<br>反映运算结果是正数还是负数，当运算结果最高位为 1 时，SF &#x3D; 1</p>
+<p>奇偶校验 PF（Parity Flag）：<br>反映运算结果最低字节中 1 的个数时偶数还是奇数，为偶数时，PF &#x3D; 1</p>
+<p>调整标志 AF（Adjust Flag）：<br>当加减运算时最低半字节有进位或借位时，AF &#x3D; 1</p>
+</blockquote>
+<p>加法指令 <code>add</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add reg, imm/reg/mem    ; reg &lt;- res+imm/reg/mem</span><br><span class="line">add mem, imm/reg        ; mem &lt;- mem+imm/reg</span><br></pre></td></tr></table></figure>
+
+<p>带进位加法指令 <code>adc</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adc reg, imm/reg/mem    ; reg &lt;- res+imm/reg/mem+cf</span><br><span class="line">adc mem, imm/reg        ; mem &lt;- mem+imm/reg+cf</span><br></pre></td></tr></table></figure>
+
+<p>增量指令 <code>inc</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inc reg/mem                ; reg/mem &lt;- reg/mem+1</span><br><span class="line">; 该指令不影响进位CF标志，对其他标志状态位的影响与add，adc一样</span><br></pre></td></tr></table></figure>
+
+<p>减法指令 <code>sub</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sub reg, imm/reg/mem    ; reg &lt;- res-imm/reg/mem</span><br><span class="line">sub mem, imm/reg        ; mem &lt;- mem-imm/reg</span><br></pre></td></tr></table></figure>
+
+<p> 带借位减法指令 <code>sbb</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sbb reg, imm/reg/mem    ; reg &lt;- res-imm/reg/mem-cf</span><br><span class="line">sbb mem, imm/reg        ; mem &lt;- mem-imm/reg-cf</span><br></pre></td></tr></table></figure>
+
+<p>减量指令 <code>dec</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dec reg/mem                ; reg/mem &lt;- reg/mem-1</span><br><span class="line">; 同inc，不影响CF但影响其他标志位</span><br></pre></td></tr></table></figure>
+
+<p>求补指令 <code>neg</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">neg reg/mem                ; reg/mem &lt;- 0-reg/mem</span><br><span class="line">; 对标志的影响与用0减去操作数相同</span><br></pre></td></tr></table></figure>
+
+<p>比较指令 <code>cmp</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmp reg, imm/reg/mem    ; reg-imm/reg/mem</span><br><span class="line">cmp mem, imm/reg        ; mem-imm/reg</span><br><span class="line">; 比较指令将目的操作数减去源操作数，但不回送给目的操作数，也就是只影响标志</span><br></pre></td></tr></table></figure>
+
+<p>无符号数乘法指令 <code>mul</code>，有符号数乘法指令 <code>imul</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mul r8/m8                ; 无符号字节乘:  ax &lt;- al·r8/m8</span><br><span class="line">mul r16/m16                ; 无符号字乘:   dx.ax &lt;- ax·r16/m16</span><br><span class="line">imul r8/m8                ; 有符号字节乘:  ax &lt;- al·r8/m8</span><br><span class="line">imul r16/m16            ; 有符号字乘:   dx.ax &lt;- ax·r16/m16</span><br><span class="line">; OF和CF的结果展示相乘结果高一半是否有有效数值</span><br><span class="line">; 对 mul，高一半为 0 时，OF = CF = 0，否则 OF = CF = 1</span><br><span class="line">; 对 imul，高一半是低一半的符号拓展时，OF = CF = 0，否则 OF = CF = 1</span><br><span class="line">; 乘法指令对其他状态标志未定义，不可预测。</span><br></pre></td></tr></table></figure>
+
+<p>无符号二进制数除法指令 <code>div</code>，有符号二进制数除法指令 <code>idiv</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">div r8/m8                ; 无符号数字节除: al &lt;- ax除以r8/m8的商</span><br><span class="line">                                    ; ah &lt;- ax除以r8/m8的余数</span><br><span class="line">div r16/m16                ; 无符号数字节除: ax &lt;- dx.ax除以r16/m16的商</span><br><span class="line">                                    ; dx &lt;- dx.ax除以r16/m16的余数</span><br><span class="line">idiv r8/m8                ; 有符号数字节除: al &lt;- ax除以r8/m8的商</span><br><span class="line">                                    ; ah &lt;- ax除以r8/m8的余数</span><br><span class="line">idiv r16/m16            ; 有符号数字节除: ax &lt;- dx.ax除以r16/m16的商</span><br><span class="line">                                    ; dx &lt;- dx.ax除以r16/m16的余数</span><br><span class="line">; 除法指令对标志的影响没有定义, 发生除法溢出时，8086 CPU 产生编号为 0 的内部中断</span><br><span class="line">; 对 div，除数为0，或结果溢出，发生除法溢出</span><br><span class="line">; 对 idiv，除数为0，或字节除时商不在-128~127，或字除时商不在-32768~32767，发生除法溢出</span><br></pre></td></tr></table></figure>
+
+<p>符号扩展指令 <code>cbw</code> <code>cwd</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cbw                        ; al符号扩展到ax</span><br><span class="line">cwd                        ; ax符号扩展到dx.ax</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="位操作类指令"><a href="#位操作类指令" class="headerlink" title="位操作类指令"></a>位操作类指令</h2><p>逻辑与指令 <code>and</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">and dest, src            ; dest &lt;- dest&amp;src</span><br><span class="line">; 双操作数逻辑指令所支持的操作组合与加减法一致，后面不再给出。</span><br><span class="line">; 所有双操作数的逻辑指令均设置 CF = OF = 1，根据结果设置SF ZF PF状态，对AF未定义</span><br></pre></td></tr></table></figure>
+
+<p>逻辑或指令 <code>or</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">or dest, src            ; dest &lt;- dest|src</span><br></pre></td></tr></table></figure>
+
+<p>逻辑异或指令 <code>xor</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xor dest, src            ; dest &lt;- dest^src</span><br></pre></td></tr></table></figure>
+
+<p>逻辑非指令 <code>not</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">not reg/mem                ; reg/mem &lt;- ~reg/mem</span><br><span class="line">; not指令不影响标志位</span><br></pre></td></tr></table></figure>
+
+<p>测试指令 <code>test</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test dest, src            ; dest&amp;src</span><br><span class="line">; 执行的操作与and相同，但不返回结果，只是根据结果设置标志位</span><br></pre></td></tr></table></figure>
+
+<p>移位指令 <code>shl</code> <code>shr</code> <code>sal</code> <code>sar</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">shl reg/mem, 1/cl        ; 逻辑左移: reg/mem左移1/cl位，最低位补0，最高位进入CF</span><br><span class="line">shr reg/mem, 1/cl        ; 逻辑右移: reg/mem右移1/cl位，最高位补0，最低位进入CF</span><br><span class="line">sal reg/mem, 1/cl        ; 算数左移: 与shl功能相同</span><br><span class="line">sar reg/mem, 1/cl        ; 算数右移: reg/mem右移1/cl位，最高位不变，最低位进入CF</span><br><span class="line">; 移位指令根据移入的位设置CF，根据移位结果设置SF ZF PF，对AF无定义</span><br><span class="line">; 如果进行1位移动，设置OF：如果移位前操作数最高位与移位后操作数最高位不同，OF = 1</span><br><span class="line">; 如果移位次数大于1，OF不确定</span><br></pre></td></tr></table></figure>
+
+<p>循环移位指令 <code>rol</code> <code>ror</code> <code>rcl</code> <code>rcr</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rol reg/mem, 1/cl        ; 不带进位循环左移</span><br><span class="line">ror reg/mem, 1/cl        ; 不带进位循环右移</span><br><span class="line">rcl reg/mem, 1/cl        ; 带进位循环左移</span><br><span class="line">rcr reg/mem, 1/cl        ; 带进位循环右移</span><br><span class="line">; 前两条指令不将进位CF纳入循环位中，后两条指令将CF纳入循环位中，与操作数一起构成9/17位的二进制数一起移位</span><br><span class="line">; 循环移位指令按指令功能设置进位标志CF，不影响SF ZF PF AF，对OF标志的影响同移位指令</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="控制转移类指令"><a href="#控制转移类指令" class="headerlink" title="控制转移类指令"></a>控制转移类指令</h2><blockquote>
+<p>段内转移是指在当前代码段 64KB 范围内转移，因此不需要改变 CS 段地址，只需更改 IP 偏移地址。<br>    如果转移范围可以用一个 8 位数（-128~127）表达，则形成短转移（short jump）<br>    如果转移范围可以用一个 16 位数表达，则形成近转移（near jump）</p>
+<p>段间转移是指从当前代码段跳转到另一个代码段，此时需要更改 CS 段地址和 IP 偏移地址。<br>    这种转移也称为远转移（far jump），转移的目标地址用一个 32 位数表达，叫做 32 位远指针，即逻辑地址。</p>
+</blockquote>
+<p>无条件转移指令 <code>jmp</code>，分为四种格式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmp label                ; ip &lt;- ip+位移量</span><br><span class="line">; 段内转移，相对寻址</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmp r16/m16                ; ip &lt;- r16/m16</span><br><span class="line">; 段内转移，间接寻址</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmp far ptr label        ; ip &lt;- label的偏移地址, cs &lt;- label的段地址</span><br><span class="line">; 段间转移，直接寻址</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jmp far ptr mem            ; ip &lt;- [mem], cs &lt;- [mem + 2]</span><br><span class="line">; 段间转移，间接寻址</span><br></pre></td></tr></table></figure>
+
+<p>条件转移指令，具体指令如下表给出。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jcc label                ; 条件满足，发生转移: ip &lt;- ip+8位位移量</span><br><span class="line">                        ; 否则，顺序执行: ip &lt;- ip+2根据单个条件标志的设置情况转移</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>根据单个条件标志的设置情况转移</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>英文</th>
+<th>含义</th>
+<th>格式</th>
+<th>测试条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JZ&#x2F;JE</td>
+<td>jump if zero&#x2F;equal</td>
+<td>结果为零&#x2F;相等则转移</td>
+<td>JZ&#x2F;JE OPR</td>
+<td>ZF&#x3D;1</td>
+</tr>
+<tr>
+<td>JNZ&#x2F;JNE</td>
+<td>jump if not zero&#x2F;equal</td>
+<td>结果不为零&#x2F;不相等则转移</td>
+<td>JNZ&#x2F;JNE OPR</td>
+<td>ZF&#x3D;0</td>
+</tr>
+<tr>
+<td>JS</td>
+<td>jump if sign</td>
+<td>结果为负则转移</td>
+<td>JS OPR</td>
+<td>SF&#x3D;1</td>
+</tr>
+<tr>
+<td>JNS</td>
+<td>jump if not sign</td>
+<td>结果为正则转移</td>
+<td>JNS OPR</td>
+<td>SF&#x3D;0</td>
+</tr>
+<tr>
+<td>JO</td>
+<td>jump if overflow</td>
+<td>溢出则转移</td>
+<td>JO OPR</td>
+<td>OF&#x3D;1</td>
+</tr>
+<tr>
+<td>JNO</td>
+<td>jump if not overflow</td>
+<td>不溢出则转移</td>
+<td>JNO OPR</td>
+<td>OF&#x3D;0</td>
+</tr>
+<tr>
+<td>JP&#x2F;JPE</td>
+<td>jump if parity&#x2F;parity even</td>
+<td>奇偶位为1则转移</td>
+<td>JP&#x2F;JPE OPR</td>
+<td>PF&#x3D;1</td>
+</tr>
+<tr>
+<td>JNP&#x2F;JNPE</td>
+<td>jump if not parity&#x2F;parity even</td>
+<td>奇偶位为0则转移</td>
+<td>JNP&#x2F;JNPE OPR</td>
+<td>PF&#x3D;0</td>
+</tr>
+<tr>
+<td>JB&#x2F;JNAE&#x2F;JC</td>
+<td>jump if below&#x2F;not above、not equal&#x2F;carry</td>
+<td>低于&#x2F;不高于或不等于&#x2F;进位为1则转移</td>
+<td>JB&#x2F;JNAE&#x2F;JC OPR</td>
+<td>CF&#x3D;1</td>
+</tr>
+<tr>
+<td>JNB&#x2F;JAE&#x2F;JNC</td>
+<td>jump if not below&#x2F; above、equal&#x2F;not carry</td>
+<td>不低于&#x2F;高于或等于&#x2F;进位为零则转移</td>
+<td>JNB&#x2F;JAE&#x2F;JNC OPR</td>
+<td>CF&#x3D;0</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>比较两个无符号数，并根据比较的结果转移</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>英文</th>
+<th>含义</th>
+<th>格式</th>
+<th>测试条件</th>
+<th>等价于</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JB&#x2F;JNAE&#x2F;JC</td>
+<td>jump if below&#x2F;not above、not equal&#x2F;carry</td>
+<td>低于&#x2F;不高于或不等于&#x2F;进位为1则转移</td>
+<td>JB&#x2F;JNAE&#x2F;JC OPR</td>
+<td>CF&#x3D;1</td>
+<td>&lt;</td>
+</tr>
+<tr>
+<td>JNB&#x2F;JAE&#x2F;JNC</td>
+<td>jump if not below&#x2F; above、equal&#x2F;not carry</td>
+<td>不低于&#x2F;高于或等于&#x2F;进位为零则转移</td>
+<td>JNB&#x2F;JAE&#x2F;JNC OPR</td>
+<td>CF&#x3D;0</td>
+<td>≥</td>
+</tr>
+<tr>
+<td>JBE&#x2F;JNA</td>
+<td>jump if below&#x2F;equal、not above</td>
+<td>低于&#x2F;等于、不高于则转移</td>
+<td>JBE&#x2F;JNA OPR</td>
+<td>CF并ZF&#x3D;1</td>
+<td>≤</td>
+</tr>
+<tr>
+<td>JNBE&#x2F;JA</td>
+<td>jump if not below&#x2F;not equal、above</td>
+<td>不低于&#x2F;不等于、高于则转移</td>
+<td>JNBE&#x2F;JA OPR</td>
+<td>CF并ZF&#x3D;0</td>
+<td>&gt;</td>
+</tr>
+</tbody></table>
+<p> 　3. 比较两个带符号数，并根据比较的结果转移</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>英文</th>
+<th>含义</th>
+<th>格式</th>
+<th>测试条件</th>
+<th>等价于</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JL&#x2F;JNGE</td>
+<td>jump if less、not greater&#x2F;equal</td>
+<td>小于、不大于&#x2F;不等于则转移</td>
+<td>JL&#x2F;JNGE OPR</td>
+<td>SF异或CF&#x3D;1</td>
+<td>&lt;</td>
+</tr>
+<tr>
+<td>JNL&#x2F;JGE</td>
+<td>jump if not less、greater&#x2F;equal</td>
+<td>不小于、大于&#x2F;等于则转移</td>
+<td>JNL&#x2F;JGE OPR</td>
+<td>SF异或CF&#x3D;0</td>
+<td>≥</td>
+</tr>
+<tr>
+<td>JLE&#x2F;JNG</td>
+<td>jump if less&#x2F;equal、not greater</td>
+<td>小于&#x2F;等于、不大于则转移</td>
+<td>JLE&#x2F;JNG OPR</td>
+<td>(SF异或CF)并ZF&#x3D;1</td>
+<td>≤</td>
+</tr>
+<tr>
+<td>JNLE&#x2F;JG</td>
+<td>jump if not less&#x2F;not equal、 greater</td>
+<td>不小于&#x2F;不等于、大于则转移</td>
+<td>JNLE&#x2F;JG OPR</td>
+<td>(SF异或CF)并ZF&#x3D;0</td>
+<td>&gt;</td>
+</tr>
+</tbody></table>
+<p>循环指令。(实际上循环流程可以由前面的转移指令实现)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jcxz label                ; cx = 0 则转移，否则顺序执行</span><br><span class="line">loop label                ; cx &lt;- cx-1，若cx≠0，循环：ip &lt;- ip+位移量，否则顺序执行</span><br><span class="line">loopz/loope    label		; cx &lt;- cx-1，若cx≠0且zf=1，循环：ip &lt;- ip+位移量，否则顺序执行</span><br><span class="line">loopnz/loopne label        ; cx &lt;- cx-1，若cx≠0且zf=0，循环：ip &lt;- ip+位移量，否则顺序执行</span><br></pre></td></tr></table></figure>
+
+<p>子程序调用指令 <code>call</code>，分为四种格式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">call label                ; 段内调用，相对寻址: sp &lt;- sp-2, ss:[sp] &lt;- ip</span><br><span class="line">                        ; ip &lt;- ip + 16位位移量</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call r16/m16            ; 段内调用，间接寻址: sp &lt;- sp-2, ss:[sp] &lt;- ip, ip &lt;- r16/m16</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">call far ptr label        ; 段间调用，直接寻址: sp &lt;- sp-2, ss:[sp] &lt;- cs</span><br><span class="line">                        ; sp &lt;- sp-2, ss:[sp] &lt;- ip</span><br><span class="line">                        ; ip &lt;- label偏移地址, cs &lt;- label短地址</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">call far ptr mem        ; 段间调用，间接寻址: sp &lt;- sp-2, ss:[sp] &lt;- cs</span><br><span class="line">                        ; sp &lt;- sp-2, ss:[sp] &lt;- ip</span><br><span class="line">                        ; ip &lt;- [mem], cs &lt;- [mem+2]</span><br></pre></td></tr></table></figure>
+
+<p>子程序返回指令 <code>ret</code>，分为四种格式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ret                        ; 无参数段内返回: ip &lt;- ss:[sp], sp &lt;- sp+2</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ret i16                    ; 有参数段内返回: ip &lt;- ss:[sp], sp &lt;- sp+2, sp &lt;- sp+i16</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret                        ; 无参数段间返回: ip &lt;- ss:[sp], sp &lt;- sp+2</span><br><span class="line">                        ; cs &lt;- ss:[sp], sp &lt;- sp+2</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret i16                    ; 有参数段间返回: ip &lt;- ss:[sp], sp &lt;- sp+2</span><br><span class="line">                        ; cs &lt;- ss:[sp], sp &lt;- sp+2, sp &lt;- sp+i16</span><br></pre></td></tr></table></figure>
+
+<p>中断指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int    i8					; 中断调用指令，产生 i8 号中断</span><br><span class="line">iret                    ; 中断返回指令</span><br><span class="line">into                    ; 溢出中断指令：溢出标志OF=1，则产生4号中断，否则顺序执行</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/489e.html" rel="prev" title="JDBC 编程">
+      <i class="fa fa-chevron-left"></i> JDBC 编程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/a0ab.html" rel="next" title="概率论中卷积公式的延申">
+      概率论中卷积公式的延申 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E7%B1%BB%E6%8C%87%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">数据传送类指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text">通用数据传送指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%A0%88%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4"><span class="nav-number">1.2.</span> <span class="nav-text">堆栈操作指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E5%BF%97%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4"><span class="nav-number">1.3.</span> <span class="nav-text">标志传送指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">地址传送指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%B1%BB%E6%8C%87%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">算术运算类指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E6%93%8D%E4%BD%9C%E7%B1%BB%E6%8C%87%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">位操作类指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E8%BD%AC%E7%A7%BB%E7%B1%BB%E6%8C%87%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">控制转移类指令</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">星海横流，岁月成碑。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+--!>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("04/16/2024 20:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+</script>
+
+<!-- 访客量的设置 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span><br></span> 
+
+<span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+</span>
+<span>总访客&nbsp<span id="busuanzi_value_site_uv"></span>&nbsp人</span>
+    <span class="post-meta-divider">|</span>
+<span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+</span>
+    <span>总访问量&nbsp<span id="busuanzi_value_site_pv"></span>&nbsp次</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
