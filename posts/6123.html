@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qedminus20.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":false,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="中英文文本文件的加密压缩与解密。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="加密压缩与解压">
+<meta property="og:url" content="http://qedminus20.github.io/posts/6123.html">
+<meta property="og:site_name" content="小花生">
+<meta property="og:description" content="中英文文本文件的加密压缩与解密。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-06T06:43:03.000Z">
+<meta property="article:modified_time" content="2025-03-06T11:04:31.377Z">
+<meta property="article:author" content="花生了什么树">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://qedminus20.github.io/posts/6123.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>加密压缩与解压 | 小花生</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小花生</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">study & life record.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://qedminus20.github.io/posts/6123.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="花生了什么树">
+      <meta itemprop="description" content="星海横流，岁月成碑。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小花生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          加密压缩与解压
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-03-06 14:43:03" itemprop="dateCreated datePublished" datetime="2025-03-06T14:43:03+08:00">2025-03-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%85%B6%E4%BB%96OJ/" itemprop="url" rel="index"><span itemprop="name">其他OJ</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>中英文文本文件的加密压缩与解密。</p>
+</blockquote>
+<span id="more"></span>
+
+<h3 id="源文件"><a href="#源文件" class="headerlink" title="源文件"></a>源文件</h3><p><code>predefine.h</code> 预定义模块。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> break_line cout &lt;&lt; string(35, <span class="string">&#x27;-&#x27;</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> uchar = <span class="type">unsigned</span> <span class="type">char</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// FNV-1a 64位哈希算法的初始值</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FNV1A_64_INIT 0xcbf29ce484222325ULL</span></span><br><span class="line"><span class="comment">// FNV-1a 64位哈希算法的质数</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FNV1A_64_PRIME 0x100000001b3</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">fnv1a_64</span><span class="params">(<span class="type">const</span> <span class="type">void</span> *data, <span class="type">size_t</span> length)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">uint64_t</span> hash = FNV1A_64_INIT;</span><br><span class="line">    <span class="type">const</span> <span class="type">uint8_t</span> *byte_data = (<span class="type">const</span> <span class="type">uint8_t</span> *)data; </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        hash ^= byte_data[i];</span><br><span class="line">        hash *= FNV1A_64_PRIME;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> hash;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HuffmanNode</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    uchar ch;</span><br><span class="line">    <span class="type">int</span> freq;</span><br><span class="line">    HuffmanNode *left, *right;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">HuffmanNode</span>(uchar c, <span class="type">int</span> f, HuffmanNode *l = <span class="literal">nullptr</span>, HuffmanNode *r = <span class="literal">nullptr</span>) :</span><br><span class="line">        <span class="built_in">ch</span>(c), <span class="built_in">freq</span>(f), <span class="built_in">left</span>(l), <span class="built_in">right</span>(r) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> HuffmanNode&amp; other) <span class="type">const</span> &#123;</span><br><span class="line">        <span class="comment">// 词频小的节点放在前面；如果词频相同，则按字节值从小到大排序</span></span><br><span class="line">        <span class="keyword">return</span> freq &gt; other.freq || (freq == other.freq &amp;&amp; ch &gt; other.ch);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Heap_sort</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    vector&lt;T&gt; heap;</span><br><span class="line">    <span class="comment">// 维护堆的性质，通过上浮操作</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">siftUp</span><span class="params">(<span class="type">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (index &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="type">int</span> parent = (index - <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (heap[parent] &lt; heap[index]) &#123;</span><br><span class="line">                <span class="built_in">swap</span>(heap[index], heap[parent]);</span><br><span class="line">                index = parent;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 维护堆的性质，通过下沉操作</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">siftDown</span><span class="params">(<span class="type">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> size = heap.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">2</span> * index + <span class="number">1</span> &lt; size) &#123;</span><br><span class="line">            <span class="type">int</span> left = <span class="number">2</span> * index + <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> right = <span class="number">2</span> * index + <span class="number">2</span>;</span><br><span class="line">            <span class="type">int</span> largest = index;</span><br><span class="line">            <span class="keyword">if</span> (heap[largest] &lt; heap[left]) &#123;</span><br><span class="line">                largest = left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (right &lt; size &amp;&amp; heap[largest] &lt; heap[right]) &#123;</span><br><span class="line">                largest = right;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (largest == index) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">swap</span>(heap[index], heap[largest]);</span><br><span class="line">            index = largest;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">emplace</span><span class="params">(<span class="type">const</span> T&amp; value)</span> </span>&#123;</span><br><span class="line">        heap.<span class="built_in">push_back</span>(value);</span><br><span class="line">        <span class="built_in">siftUp</span>(heap.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">T&amp; <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> heap[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">swap</span>(heap[<span class="number">0</span>], heap[heap.<span class="built_in">size</span>() - <span class="number">1</span>]);</span><br><span class="line">        heap.<span class="built_in">pop_back</span>();</span><br><span class="line">        <span class="keyword">if</span> (!heap.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="built_in">siftDown</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">empty</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> heap.<span class="built_in">empty</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">size_t</span> <span class="title">size</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> heap.<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>compress.cpp</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&quot;predefine.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Enter the filename: &quot;</span>;</span><br><span class="line">    string filename; cin &gt;&gt; filename;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Sender&#x27;s ID: &quot;</span>;</span><br><span class="line">    string sender_id; cin &gt;&gt; sender_id;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Sender&#x27;s name: &quot;</span>;</span><br><span class="line">    string sender_name; cin &gt;&gt; sender_name;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Receiver&#x27;s ID: &quot;</span>;</span><br><span class="line">    string receiver_id; cin &gt;&gt; receiver_id;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Receiver&#x27;s name: &quot;</span>;</span><br><span class="line">    string receiver_name; cin &gt;&gt; receiver_name;</span><br><span class="line">    cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    string info = sender_id + <span class="string">&quot;, &quot;</span> + sender_name + <span class="string">&quot;\n&quot;</span></span><br><span class="line">                 + receiver_id + <span class="string">&quot;, &quot;</span> + receiver_name + <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// freqMap 统计字符频率信息</span></span><br><span class="line">    <span class="function">ifstream <span class="title">file</span><span class="params">(filename, ios::binary)</span></span>;</span><br><span class="line">    file.<span class="built_in">seekg</span>(<span class="number">0</span>, ios::end);</span><br><span class="line">    <span class="type">int</span> length = file.<span class="built_in">tellg</span>();</span><br><span class="line">    file.<span class="built_in">seekg</span>(<span class="number">0</span>, ios::beg);</span><br><span class="line">    unordered_map&lt;uchar, <span class="type">int</span>&gt; freqMap;</span><br><span class="line">    <span class="type">char</span> ch;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> ch : info) freqMap[((uchar)ch + <span class="number">0x55</span>) % <span class="number">0x100</span>]++;</span><br><span class="line">    <span class="keyword">while</span>(file.<span class="built_in">get</span>(ch)) freqMap[((uchar)ch + <span class="number">0x55</span>) % <span class="number">0x100</span>]++; </span><br><span class="line">    file.<span class="built_in">close</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 以字符频率信息构建小根堆</span></span><br><span class="line">    priority_queue&lt;HuffmanNode&gt; minHeap;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> &amp;[ch, freq] : freqMap)&#123;</span><br><span class="line">        minHeap.<span class="built_in">emplace</span>(<span class="built_in">HuffmanNode</span>(ch, freq));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 展示经过排序的词频统计列表</span></span><br><span class="line">    <span class="keyword">auto</span> temp = minHeap;</span><br><span class="line">    break_line;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Word frequency statistics list:&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;byte  freq&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    <span class="keyword">while</span>(!temp.<span class="built_in">empty</span>())&#123;        </span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;0x&quot;</span> &lt;&lt; <span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; hex &lt;&lt; (<span class="type">int</span>)temp.<span class="built_in">top</span>().ch </span><br><span class="line">             &lt;&lt; <span class="built_in">setw</span>(<span class="number">6</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27; &#x27;</span>) &lt;&lt; dec &lt;&lt; temp.<span class="built_in">top</span>().freq &lt;&lt; <span class="string">&#x27;\n&#x27;</span>; </span><br><span class="line">        temp.<span class="built_in">pop</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    break_line;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构建哈夫曼树</span></span><br><span class="line">    <span class="keyword">while</span> (minHeap.<span class="built_in">size</span>() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">auto</span> left = <span class="keyword">new</span> <span class="built_in">HuffmanNode</span>(minHeap.<span class="built_in">top</span>()); <span class="comment">// 动态分配左子节点</span></span><br><span class="line">        minHeap.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">auto</span> right = <span class="keyword">new</span> <span class="built_in">HuffmanNode</span>(minHeap.<span class="built_in">top</span>()); <span class="comment">// 动态分配右子节点</span></span><br><span class="line">        minHeap.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">        uchar merge_ch = <span class="built_in">max</span>(left-&gt;ch, right-&gt;ch);</span><br><span class="line">        <span class="type">int</span> merge_freq = left-&gt;freq + right-&gt;freq;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">auto</span> newNode = <span class="keyword">new</span> <span class="built_in">HuffmanNode</span>(merge_ch, merge_freq, left, right);</span><br><span class="line">        minHeap.<span class="built_in">emplace</span>(*newNode); <span class="comment">// 将新节点插入堆中</span></span><br><span class="line">    &#125;</span><br><span class="line">    HuffmanNode Head = minHeap.<span class="built_in">top</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算 WPL</span></span><br><span class="line">    <span class="keyword">auto</span> cal_WPL = [](<span class="keyword">auto</span> &amp;&amp;self, HuffmanNode *u, <span class="type">int</span> dep) -&gt; <span class="type">int</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(u-&gt;left == <span class="literal">nullptr</span> &amp;&amp; u-&gt;right == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> u-&gt;freq * dep;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">self</span>(self, u-&gt;left, dep + <span class="number">1</span>) + <span class="built_in">self</span>(self, u-&gt;right, dep + <span class="number">1</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;WPL : &quot;</span> &lt;&lt; dec &lt;&lt; <span class="built_in">cal_WPL</span>(cal_WPL, &amp;Head, <span class="number">0</span>) &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构建哈夫曼编码映射表</span></span><br><span class="line">    map&lt;uchar, string&gt;HuffmanCode;</span><br><span class="line">    <span class="keyword">auto</span> generate = [&amp;](<span class="keyword">auto</span> &amp;&amp;self, HuffmanNode* node, <span class="type">const</span> string&amp; code) -&gt; <span class="type">void</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">nullptr</span>) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (node-&gt;left == <span class="literal">nullptr</span> &amp;&amp; node-&gt;right == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="comment">// 如果是叶子节点，保存字符和编码</span></span><br><span class="line">            HuffmanCode[node-&gt;ch] = code;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 递归生成左子树的编码（&#x27;0&#x27;表示左子树）</span></span><br><span class="line">        <span class="built_in">self</span>(self, node-&gt;left, code + <span class="string">&quot;0&quot;</span>);</span><br><span class="line">        <span class="comment">// 递归生成右子树的编码（&#x27;1&#x27;表示右子树）</span></span><br><span class="line">        <span class="built_in">self</span>(self, node-&gt;right, code + <span class="string">&quot;1&quot;</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">generate</span>(generate, &amp;Head, <span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成编码表</span></span><br><span class="line">    <span class="function">ofstream <span class="title">outfile</span><span class="params">(<span class="string">&quot;code.txt&quot;</span>, ios::binary)</span></span>;</span><br><span class="line">    outfile &lt;&lt; length &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> &amp;[ch, cd] : HuffmanCode)&#123;</span><br><span class="line">        outfile &lt;&lt; <span class="string">&quot;0x&quot;</span> &lt;&lt; hex &lt;&lt; <span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; (<span class="type">int</span>)ch;</span><br><span class="line">        <span class="type">int</span> code_len = cd.<span class="built_in">size</span>();</span><br><span class="line">        outfile &lt;&lt; <span class="string">&quot; 0x&quot;</span> &lt;&lt; hex &lt;&lt; <span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; (<span class="type">int</span>)code_len;</span><br><span class="line">        string encoded;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; cd.<span class="built_in">size</span>(); i += <span class="number">8</span>)&#123;</span><br><span class="line">            uchar byte = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">8</span> &amp;&amp; i + j &lt; cd.<span class="built_in">size</span>(); j++)&#123;</span><br><span class="line">                byte |= (cd[i + j] == <span class="string">&#x27;1&#x27;</span>) &lt;&lt; (<span class="number">7</span> - j);</span><br><span class="line">            &#125;</span><br><span class="line">            encoded += byte;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> &amp;byte : encoded)&#123;</span><br><span class="line">            outfile &lt;&lt; <span class="string">&quot; 0x&quot;</span> &lt;&lt; hex &lt;&lt; <span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; (<span class="type">int</span>)(uchar)byte;</span><br><span class="line">        &#125;</span><br><span class="line">        outfile &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    outfile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 输出编码表到交互界面</span></span><br><span class="line">    file.<span class="built_in">open</span>(<span class="string">&quot;code.txt&quot;</span>);</span><br><span class="line">    string line;</span><br><span class="line">    break_line;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Code table:&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">getline</span>(file, line)) &#123;</span><br><span class="line">        cout &lt;&lt; line &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    file.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取压缩文件 (先获取01串, 在每8位合成一个字节), 输出最后16字节信息, 压缩文件大小</span></span><br><span class="line">    string compressed_file = filename.<span class="built_in">substr</span>(<span class="number">0</span>, filename.<span class="built_in">length</span>() - <span class="number">3</span>) + <span class="string">&quot;hfm&quot;</span>;</span><br><span class="line">    outfile.<span class="built_in">open</span>(compressed_file, ios::binary);</span><br><span class="line">    file.<span class="built_in">open</span>(filename, ios::binary);</span><br><span class="line">    string bitStream;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> ch : info) bitStream += HuffmanCode[((uchar)ch + <span class="number">0x55</span>) % <span class="number">0x100</span>];</span><br><span class="line">    <span class="keyword">while</span>(file.<span class="built_in">get</span>(ch)) bitStream += HuffmanCode[((uchar)ch + <span class="number">0x55</span>) % <span class="number">0x100</span>]; </span><br><span class="line">    file.<span class="built_in">close</span>();</span><br><span class="line">    break_line;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Size of compressed file: &quot;</span> &lt;&lt; bitStream.<span class="built_in">size</span>() / <span class="number">8</span> &lt;&lt; <span class="string">&quot; bytes&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Last 16 bytes in &quot;</span> + compressed_file &lt;&lt; <span class="string">&quot;:\n&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; bitStream.<span class="built_in">size</span>(); i += <span class="number">8</span>)&#123;</span><br><span class="line">        uchar byte = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">8</span> &amp;&amp; i + j &lt; bitStream.<span class="built_in">size</span>(); j++)&#123;</span><br><span class="line">            byte |= (bitStream[i + j] == <span class="string">&#x27;1&#x27;</span>) &lt;&lt; (<span class="number">7</span> - j);</span><br><span class="line">        &#125;</span><br><span class="line">        outfile &lt;&lt; byte;</span><br><span class="line">        <span class="keyword">if</span>(bitStream.<span class="built_in">size</span>() - i &lt; <span class="number">8</span> * <span class="number">16</span>)&#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;0x&quot;</span> &lt;&lt; <span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; hex &lt;&lt; (<span class="type">int</span>)byte &lt;&lt; <span class="string">&quot; &quot;</span>; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    break_line;</span><br><span class="line">    outfile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算原文本和加入info信息后的文本哈希值</span></span><br><span class="line">    file.<span class="built_in">open</span>(filename, ios::binary);</span><br><span class="line">    <span class="type">char</span> *buffer = <span class="keyword">new</span> <span class="type">char</span>[length];</span><br><span class="line">    file.<span class="built_in">read</span>(buffer, length);</span><br><span class="line">    file.<span class="built_in">close</span>();</span><br><span class="line">    <span class="type">char</span>* buffer_with_info = <span class="keyword">new</span> <span class="type">char</span>[info.<span class="built_in">size</span>() + length];</span><br><span class="line">    <span class="built_in">memcpy</span>(buffer_with_info, info.<span class="built_in">c_str</span>(), info.<span class="built_in">size</span>());</span><br><span class="line">    <span class="built_in">memcpy</span>(buffer_with_info + info.<span class="built_in">size</span>(), buffer, length);</span><br><span class="line">    <span class="type">uint64_t</span> hash_value = <span class="built_in">fnv1a_64</span>(buffer, length);</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Original file&#x27;s FNV-1a hash: 0x&quot;</span> &lt;&lt; hex &lt;&lt; hash_value &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    hash_value = <span class="built_in">fnv1a_64</span>(buffer_with_info, info.<span class="built_in">size</span>() + length);</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;File with info&#x27;s FNV-1a hash: 0x&quot;</span> &lt;&lt; hex &lt;&lt; hash_value &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算编码文件哈希值</span></span><br><span class="line">    file.<span class="built_in">open</span>(compressed_file, ios::binary);</span><br><span class="line">    file.<span class="built_in">seekg</span>(<span class="number">0</span>, ios::end);</span><br><span class="line">    <span class="type">int</span> compressed_length = file.<span class="built_in">tellg</span>();</span><br><span class="line">    file.<span class="built_in">seekg</span>(<span class="number">0</span>, ios::beg);</span><br><span class="line">    buffer = <span class="keyword">new</span> <span class="type">char</span>[compressed_length];</span><br><span class="line">    file.<span class="built_in">read</span>(buffer, compressed_length);</span><br><span class="line">    file.<span class="built_in">close</span>();</span><br><span class="line">    hash_value = <span class="built_in">fnv1a_64</span>(buffer, compressed_length); </span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Compressed file&#x27;s FNV-1a hash: 0x&quot;</span> &lt;&lt; hex &lt;&lt; hash_value &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    break_line;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// ios::sync_with_stdio(0);</span></span><br><span class="line">    <span class="comment">// cin.tie(0); cout.tie(0);</span></span><br><span class="line">    <span class="built_in">solve</span>();    </span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>decompress.cpp</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&quot;predefine.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// 根据编码表建立哈夫曼树</span></span><br><span class="line">    <span class="keyword">auto</span> *Head = <span class="keyword">new</span> <span class="built_in">HuffmanNode</span>(<span class="number">0</span>, <span class="number">-1</span>);</span><br><span class="line">    <span class="function">ifstream <span class="title">file</span><span class="params">(<span class="string">&quot;code.txt&quot;</span>)</span></span>;</span><br><span class="line">    string whole_len_str;</span><br><span class="line">    <span class="built_in">getline</span>(file, whole_len_str);</span><br><span class="line">    <span class="type">int</span> whole_len = <span class="built_in">stoi</span>(whole_len_str);</span><br><span class="line">    string line;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">getline</span>(file, line))&#123;</span><br><span class="line">        <span class="function">istringstream <span class="title">iss</span><span class="params">(line)</span></span>;</span><br><span class="line">        string byte_str, code_len_str, code;</span><br><span class="line"></span><br><span class="line">        iss &gt;&gt; byte_str;</span><br><span class="line">        uchar ch = (<span class="built_in">stoi</span>(byte_str, <span class="literal">nullptr</span>, <span class="number">16</span>) + <span class="number">0x100</span> - <span class="number">0x55</span>) % <span class="number">0x100</span>;</span><br><span class="line"></span><br><span class="line">        iss &gt;&gt; code_len_str;</span><br><span class="line">        <span class="type">int</span> code_len = <span class="built_in">stoi</span>(code_len_str, <span class="literal">nullptr</span>, <span class="number">16</span>);</span><br><span class="line"></span><br><span class="line">        vector&lt;uchar&gt;encoded_bytes;</span><br><span class="line">        <span class="keyword">while</span>(iss &gt;&gt; byte_str)&#123;</span><br><span class="line">            uchar byte = (uchar)<span class="built_in">stoi</span>(byte_str, <span class="literal">nullptr</span>, <span class="number">16</span>);</span><br><span class="line">            encoded_bytes.<span class="built_in">emplace_back</span>(byte);</span><br><span class="line">        &#125;</span><br><span class="line">        string encoded;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> &amp;byte : encoded_bytes)&#123;</span><br><span class="line">            bitset&lt;8&gt;<span class="built_in">bits</span>(byte);</span><br><span class="line">            encoded += bits.<span class="built_in">to_string</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        encoded = encoded.<span class="built_in">substr</span>(<span class="number">0</span>, code_len);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">auto</span> p = Head;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> &amp;u : encoded)&#123;</span><br><span class="line">            <span class="keyword">if</span>(u == <span class="string">&#x27;0&#x27;</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(p-&gt;left == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">                    <span class="keyword">auto</span> *left = <span class="keyword">new</span> <span class="built_in">HuffmanNode</span>(<span class="number">0</span>, <span class="number">-1</span>);</span><br><span class="line">                    p-&gt;left = left;</span><br><span class="line">                &#125;</span><br><span class="line">                p = p-&gt;left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(p-&gt;right == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">                    <span class="keyword">auto</span> *right = <span class="keyword">new</span> <span class="built_in">HuffmanNode</span>(<span class="number">0</span>, <span class="number">-1</span>);</span><br><span class="line">                    p-&gt;right = right;</span><br><span class="line">                &#125;</span><br><span class="line">                p = p-&gt;right;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        p-&gt;ch = ch;</span><br><span class="line">    &#125;</span><br><span class="line">    file.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解码文件信息</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Enter the compressed filename: &quot;</span>;</span><br><span class="line">    string compressed_filename; cin &gt;&gt; compressed_filename;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Receiver&#x27;s ID: &quot;</span>;</span><br><span class="line">    string receiver_id; cin &gt;&gt; receiver_id;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Receiver&#x27;s name: &quot;</span>;</span><br><span class="line">    string receiver_name; cin &gt;&gt; receiver_name;</span><br><span class="line">    cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    string decompressed_filename = compressed_filename.<span class="built_in">substr</span>(<span class="number">0</span>, compressed_filename.<span class="built_in">length</span>() - <span class="number">4</span>) + <span class="string">&quot;_j.txt&quot;</span>;</span><br><span class="line">    <span class="function">ifstream <span class="title">encoded_file</span><span class="params">(compressed_filename, ios::binary)</span></span>;</span><br><span class="line">    <span class="function">ofstream <span class="title">decoded_file</span><span class="params">(decompressed_filename, ios::binary)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解码, 开始计时</span></span><br><span class="line">    <span class="keyword">auto</span> start = chrono::high_resolution_clock::<span class="built_in">now</span>();</span><br><span class="line">    <span class="type">char</span> ch;</span><br><span class="line">    string binary_string;</span><br><span class="line">    <span class="keyword">auto</span> p = Head;</span><br><span class="line">    <span class="keyword">while</span> (encoded_file.<span class="built_in">get</span>(ch)) &#123;</span><br><span class="line">        binary_string += <span class="built_in">bitset</span>&lt;<span class="number">8</span>&gt;((uchar)ch).<span class="built_in">to_string</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> cur_len = <span class="number">0</span>, lfcnt = <span class="number">0</span>;</span><br><span class="line">    string info; <span class="type">bool</span> check = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> &amp;bit : binary_string)&#123;</span><br><span class="line">        <span class="keyword">if</span>(bit == <span class="string">&#x27;0&#x27;</span>)&#123;</span><br><span class="line">            p = p-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            p = p-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(p-&gt;ch != <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!check) info += p-&gt;ch;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                decoded_file &lt;&lt; p-&gt;ch;</span><br><span class="line">                cur_len ++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(p-&gt;ch == <span class="string">&#x27;\n&#x27;</span>) &#123;</span><br><span class="line">                lfcnt++;</span><br><span class="line">                <span class="keyword">if</span>(lfcnt == <span class="number">2</span>) &#123;</span><br><span class="line">                    <span class="function">stringstream <span class="title">Info</span><span class="params">(info)</span></span>;</span><br><span class="line">                    <span class="built_in">getline</span>(Info, line);</span><br><span class="line">                    <span class="built_in">getline</span>(Info, line);</span><br><span class="line">                    <span class="keyword">if</span>(line == receiver_id + <span class="string">&quot;, &quot;</span> + receiver_name) &#123;</span><br><span class="line">                        cout &lt;&lt; <span class="string">&quot;Info of sender and receiver: \n&quot;</span> &lt;&lt; info &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">                        check = <span class="literal">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span>&#123;</span><br><span class="line">                        cout &lt;&lt; <span class="string">&quot;Receiver not match!&quot;</span> &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(cur_len == whole_len) <span class="keyword">break</span>;</span><br><span class="line">            p = Head;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    encoded_file.<span class="built_in">close</span>();</span><br><span class="line">    decoded_file.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!check) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 结束计时, 计算解码时间</span></span><br><span class="line">    <span class="keyword">auto</span> end = chrono::high_resolution_clock::<span class="built_in">now</span>();</span><br><span class="line">    chrono::duration&lt;<span class="type">double</span>&gt; duration = end - start;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Decoding time: &quot;</span> &lt;&lt; duration.<span class="built_in">count</span>() &lt;&lt; <span class="string">&quot; s&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算解码文本哈希值</span></span><br><span class="line">    file.<span class="built_in">open</span>(decompressed_filename, ios::binary);</span><br><span class="line">    <span class="type">char</span> *buffer = <span class="keyword">new</span> <span class="type">char</span>[whole_len];</span><br><span class="line">    file.<span class="built_in">read</span>(buffer, whole_len);</span><br><span class="line">    file.<span class="built_in">close</span>();</span><br><span class="line">    <span class="type">uint64_t</span> hash_value = <span class="built_in">fnv1a_64</span>(buffer, whole_len); </span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Decompressed file&#x27;s FNV-1a hash: 0x&quot;</span> &lt;&lt; hex &lt;&lt; hash_value &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算压缩率</span></span><br><span class="line">    <span class="type">double</span> ratio = <span class="number">1.0</span> * binary_string.<span class="built_in">size</span>() / <span class="number">8</span> / whole_len;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Compression Ratio: &quot;</span> &lt;&lt;  ratio * <span class="number">100</span> &lt;&lt; <span class="string">&quot;%&quot;</span> &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// ios::sync_with_stdio(0);</span></span><br><span class="line">    <span class="comment">// cin.tie(0); cout.tie(0);</span></span><br><span class="line">    <span class="built_in">solve</span>();</span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="功能说明"><a href="#功能说明" class="headerlink" title="功能说明"></a>功能说明</h3><p>压缩方：</p>
+<ul>
+<li>使用程序：compress.exe可执行文件，predefine.h头文件</li>
+<li>准备文件：xxx.txt（需要进行压缩的文本文件）</li>
+<li>使用方式：打开compress.exe 可执行文件，输入需要进行压缩的文本文件路径，并依次输入发送人学号、姓名，接收人学号、姓名信息，等待文件压缩。</li>
+<li>终端显示：字符频率信息，哈夫曼树WPL值，编码表信息，压缩后文件大小，压缩后文件最后16字节hex值，原文本文件、带信息文本文件、压缩文件的Hash值。</li>
+<li>生成文件：code.txt 编码表 xxx.hfm 压缩文件</li>
+</ul>
+<p>解压缩方：</p>
+<ul>
+<li>使用程序：decompress.exe可执行文件，predefine.h头文件</li>
+<li>准备文件：code.txt（编码表文件）xxx.hfm（需要进行解压缩的压缩文件）</li>
+<li>使用方式：打开decompress.exe 可执行文件，输入需要进行解压缩的压缩文件路径，并输入接收人学号、姓名信息，等待文件解压缩。</li>
+<li>终端显示：发送人接收人信息，解压缩时间，解压缩文本文件Hash值，压缩率。</li>
+<li>生成文件：xxx_j.txt 解压缩文本文件</li>
+</ul>
+<p>（注意，如果输入的接收人信息不正确，程序将拒绝继续解压缩）</p>
+<p>简单的说，就是一个人可以加密并压缩文件，另一个人可以解密并解压文件。<br>两个人可以互相传着玩，但别人看不懂俩人在干什么。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/80e1.html" rel="prev" title="第十二届蓝桥杯软件赛省赛C++ A组">
+      <i class="fa fa-chevron-left"></i> 第十二届蓝桥杯软件赛省赛C++ A组
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">源文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">功能说明</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="花生了什么树"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">花生了什么树</p>
+  <div class="site-description" itemprop="description">星海横流，岁月成碑。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">96</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花生了什么树</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+--!>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("04/16/2024 20:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+</script>
+
+<!-- 访客量的设置 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span><br></span> 
+
+<span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+</span>
+<span>总访客&nbsp<span id="busuanzi_value_site_uv"></span>&nbsp人</span>
+    <span class="post-meta-divider">|</span>
+<span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+</span>
+    <span>总访问量&nbsp<span id="busuanzi_value_site_pv"></span>&nbsp次</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
