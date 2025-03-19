@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qedminus20.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":false,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="RSA 生成、加密、解密、原理介绍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSA">
+<meta property="og:url" content="http://qedminus20.github.io/posts/115d.html">
+<meta property="og:site_name" content="小花生">
+<meta property="og:description" content="RSA 生成、加密、解密、原理介绍。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qedminus20.github.io/posts/115d/1.png">
+<meta property="article:published_time" content="2025-03-19T07:26:00.000Z">
+<meta property="article:modified_time" content="2025-03-19T07:34:20.760Z">
+<meta property="article:author" content="和和弦">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qedminus20.github.io/posts/115d/1.png">
+
+<link rel="canonical" href="http://qedminus20.github.io/posts/115d.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RSA | 小花生</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小花生</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">study & life record.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>计划</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://qedminus20.github.io/posts/115d.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="和和弦">
+      <meta itemprop="description" content="星海横流，岁月成碑。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小花生">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RSA
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-03-19 15:26:00" itemprop="dateCreated datePublished" datetime="2025-03-19T15:26:00+08:00">2025-03-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>RSA 生成、加密、解密、原理介绍。</p>
+</blockquote>
+<span id="more"></span>
+
+<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<p>RSA 算法是一种非对称加密算法，由 Ron Rivest、Adi Shamir 和 Leonard Adleman 在 1977 年提出。它广泛应用于数据加密和数字签名。RSA 的安全性基于大整数分解的困难性。下面介绍 RSA 的生成、加密、解密过程及原理。</p>
+<h2 id="RSA-实现过程"><a href="#RSA-实现过程" class="headerlink" title="RSA 实现过程"></a>RSA 实现过程</h2><h3 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h3><ol>
+<li><p>选择两个大质数 $p$，$q$</p>
+</li>
+<li><p>计算 $n&#x3D;p\times q$</p>
+</li>
+<li><p>计算 $\varphi(n)&#x3D;(p-1)(q-1)$</p>
+</li>
+<li><p>选择公钥指数 $e$，满足 $1&lt;e&lt;\varphi(n)$，$(e,\varphi(n))&#x3D;1$</p>
+<p>通常选择 $e&#x3D;65537$ （常见公钥指数）</p>
+</li>
+<li><p>计算私钥指数 $d\equiv e^{-1}\ (mod\ \varphi(n))$</p>
+</li>
+</ol>
+<p>如此，生成了公钥 $(e,n)$，私钥 $(d,n)$</p>
+<h3 id="Encrypt"><a href="#Encrypt" class="headerlink" title="Encrypt"></a>Encrypt</h3><ol>
+<li><p>将明文 $M$ 转换为一个整数 $m$，$0\le m&lt;n$</p>
+</li>
+<li><p>计算密文 $C&#x3D;m^e\ (mod\ n)$</p>
+</li>
+</ol>
+<h3 id="Decrypt"><a href="#Decrypt" class="headerlink" title="Decrypt"></a>Decrypt</h3><ol>
+<li>计算 $m&#x3D;C^d(mod\ n)$</li>
+<li>将整数 $m$ 转换回明文 $M$</li>
+</ol>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="解密如何恢复明文-M"><a href="#解密如何恢复明文-M" class="headerlink" title="解密如何恢复明文 $M$"></a>解密如何恢复明文 $M$</h3><p>$$<br>C^d\equiv (m^e)^d\equiv m^{e\times d}\ (mod\ n)<br>$$</p>
+<p>根据<br>$$<br>e\times d\equiv 1(mod\ \varphi(n))\to e\times d&#x3D;k\varphi(n)+1\ (k\in Z)<br>$$</p>
+<p>因此，根据<strong>扩展欧拉定理</strong>，由于 $n$ 的质因子最大次数为 $1$，有<br>$$<br>m^{e\times d}&#x3D; m^{k\varphi(n)+1}\equiv m\ (mod\ n)<br>$$</p>
+<h2 id="实现一个-RSA-加密"><a href="#实现一个-RSA-加密" class="headerlink" title="实现一个 RSA 加密"></a>实现一个 RSA 加密</h2><p>首先选定大质数，这里选了一个</p>
+<p>450 位的 $p$ ：<br>467032132547092763679424400715256463886919640292692842040806542563367226725988741211988934394123174820184618017031738160277150838885208581046672621508843714520278468042250870431095176254092110937655506062205085436582547423982296948571938215345771568040915899620766342701069979208453111021040357978976240267500147399135034516743657768591495774709227690312443802901609681833792358656331078133513494970768837172360779848429580950889376484034920940658301</p>
+<p>360 位的 $q$ ：<br>194023861529273746032867033852522503340514249488152902490464389801793788010752676566875987256843797696782133675078829671941265886507529918064352176666215307571570050799028252465780168559345383973414460523204995557736345483058886026979041604309477595545435812870900720402574135711051824454515829105419317883351244121334629093500195092694732201088610121696992369</p>
+<p>按上述实现流程完成代码。（由于涉及到超大整数，使用 python 完成）</p>
+<img src="/posts/115d/1.png" class="">
+
+<p>这样，我们就实现了一个非对称加密算法。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">exgcd</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="keyword">if</span> b == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> a, <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        g, x, y = exgcd(b, a % b)</span><br><span class="line">        <span class="keyword">return</span> g, y, x - (a // b) * y</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">inv</span>(<span class="params">e, phi</span>):</span><br><span class="line">    g, x, y = exgcd(e, phi)</span><br><span class="line">    <span class="keyword">return</span> ((x % phi) + phi) % phi</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">generate_keypair</span>(<span class="params">p, q</span>):</span><br><span class="line">    <span class="comment"># 计算n和phi(n)</span></span><br><span class="line">    n = p * q</span><br><span class="line">    phi = (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 选择公钥e，通常为65537</span></span><br><span class="line">    e = <span class="number">65537</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算私钥d</span></span><br><span class="line">    d = inv(e, phi)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 返回公钥和私钥</span></span><br><span class="line">    <span class="keyword">return</span> (e, n), (d, n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encrypt</span>(<span class="params">public_key, plaintext</span>):</span><br><span class="line">    e, n = public_key</span><br><span class="line">    <span class="comment"># 将明文转换为整数</span></span><br><span class="line">    m = <span class="built_in">int</span>.from_bytes(plaintext.encode(<span class="string">&#x27;utf-8&#x27;</span>), <span class="string">&#x27;big&#x27;</span>)</span><br><span class="line">    <span class="comment"># 计算密文</span></span><br><span class="line">    c = <span class="built_in">pow</span>(m, e, n)</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decrypt</span>(<span class="params">private_key, ciphertext</span>):</span><br><span class="line">    d, n = private_key</span><br><span class="line">    <span class="comment"># 计算明文</span></span><br><span class="line">    m = <span class="built_in">pow</span>(ciphertext, d, n)</span><br><span class="line">    <span class="comment"># 将整数转换为字节，再解码为字符串</span></span><br><span class="line">    plaintext = m.to_bytes((m.bit_length() + <span class="number">7</span>) // <span class="number">8</span>, <span class="string">&#x27;big&#x27;</span>).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> plaintext</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    p = <span class="number">467032132547092763679424400715256463886919640292692842040806542563367226725988741211988934394123174820184618017031738160277150838885208581046672621508843714520278468042250870431095176254092110937655506062205085436582547423982296948571938215345771568040915899620766342701069979208453111021040357978976240267500147399135034516743657768591495774709227690312443802901609681833792358656331078133513494970768837172360779848429580950889376484034920940658301</span></span><br><span class="line">    q = <span class="number">194023861529273746032867033852522503340514249488152902490464389801793788010752676566875987256843797696782133675078829671941265886507529918064352176666215307571570050799028252465780168559345383973414460523204995557736345483058886026979041604309477595545435812870900720402574135711051824454515829105419317883351244121334629093500195092694732201088610121696992369</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 生成密钥对</span></span><br><span class="line">    public_key, private_key = generate_keypair(p, q)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 明文</span></span><br><span class="line">    plaintext = <span class="string">&quot;RSA is a widely-used public-key cryptosystem that relies on the mathematical difficulty of factoring large integers for secure data encryption and digital signatures. It uses a pair of keys: a public key for encryption and a private key for decryption, ensuring secure communication over untrusted networks.&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;明文:\n&quot;</span>, plaintext)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 加密</span></span><br><span class="line">    ciphertext = encrypt(public_key, plaintext)</span><br><span class="line">    <span class="comment"># print(&quot;密文:&quot;, ciphertext)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 解密</span></span><br><span class="line">    decrypted_text = decrypt(private_key, ciphertext)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;解密后的明文:\n&quot;</span>, decrypted_text)</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/6587.html" rel="prev" title="矩阵快速幂">
+      <i class="fa fa-chevron-left"></i> 矩阵快速幂
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RSA-%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">RSA 实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Setup"><span class="nav-number">1.1.</span> <span class="nav-text">Setup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Encrypt"><span class="nav-number">1.2.</span> <span class="nav-text">Encrypt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Decrypt"><span class="nav-number">1.3.</span> <span class="nav-text">Decrypt</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E5%A6%82%E4%BD%95%E6%81%A2%E5%A4%8D%E6%98%8E%E6%96%87-M"><span class="nav-number">2.1.</span> <span class="nav-text">解密如何恢复明文 $M$</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA-RSA-%E5%8A%A0%E5%AF%86"><span class="nav-number">3.</span> <span class="nav-text">实现一个 RSA 加密</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="和和弦"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">和和弦</p>
+  <div class="site-description" itemprop="description">星海横流，岁月成碑。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">105</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">和和弦</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+--!>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("04/16/2024 20:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+</script>
+
+<!-- 访客量的设置 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span><br></span> 
+
+<span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+</span>
+<span>总访客&nbsp<span id="busuanzi_value_site_uv"></span>&nbsp人</span>
+    <span class="post-meta-divider">|</span>
+<span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+</span>
+    <span>总访问量&nbsp<span id="busuanzi_value_site_pv"></span>&nbsp次</span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
